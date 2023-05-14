@@ -34,13 +34,13 @@ test('POST /webhook listsServices and updates services', async t => {
   const mockService = {
     inspect: () => ({
       Name: 'test-service',
-      Spec: { TaskTemplate: { ContainerSpec: { Image: 'test-image:1.0' } } },
+      Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test-image:1.0' } } },
       Version: { Index: 1 }
     }),
     update: (opts) => {
       t.pass('triggered service update');
       t.equal(opts.version, 1, 'correct version passed to update');
-      t.equal(opts.TaskTemplate.ContainerSpec.Image, 'test-image:latest', 'correct image passed to update');
+      t.equal(opts.TaskTemplate.ContainerSpec.Image, 'test-image:1.0', 'correct image passed to update');
     }
   };
 
