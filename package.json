@@ -24,7 +24,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dockerode": "^3.3.5"
+    "dockerode": "^3.3.5",
+    "final-stream": "^2.0.4"
   },
   "devDependencies": {
     "basictap": "^4.3.3",
