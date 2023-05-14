@@ -20,7 +20,7 @@ test('POST /webhook listsServices but does no updates', async t => {
     }
   }
 
-  const server = createServer(mockDocker);
+  const server = createServer(mockDocker, 100);
   server.listen(8080);
 
   await fetch('http://localhost:8080/webhook', {
@@ -60,7 +60,7 @@ test('POST /webhook listsServices and updates services', async t => {
     })
   }
 
-  const server = createServer(mockDocker);
+  const server = createServer(mockDocker, 100);
   server.listen(8081);
 
   await fetch('http://localhost:8081/webhook', {
