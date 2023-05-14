@@ -1,0 +1,33 @@
+{
+  "name": "docker-upgrade-webhook",
+  "version": "1.0.0",
+  "description": "A webhook server that automatically updates Docker services when a repository changes.",
+  "type": "module",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "c8 node tests"
+  },
+  "keywords": [
+    "docker",
+    "swarm",
+    "upgrade",
+    "hook",
+    "web hook"
+  ],
+  "author": {
+    "email": "me@markwylde.com",
+    "name": "Mark Wylde",
+    "url": "https://github.com/markwylde"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dockerode": "^3.3.5"
+  },
+  "devDependencies": {
+    "basictap": "^4.3.3",
+    "c8": "^7.13.0"
+  }
+}
