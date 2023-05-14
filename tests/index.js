@@ -1,6 +1,8 @@
 import test from 'basictap';
 import createServer from '../lib/createServer.js';
 
+process.env.DOCKER_REGISTRY_URL = 'test.example.com';
+
 test('POST /webhook listsServices but does no updates', async t => {
   t.plan(1);
 
@@ -37,7 +39,7 @@ test('POST /webhook listsServices and updates services', async t => {
   const mockService = {
     inspect: () => Promise.resolve({
       ID: 'test-service',
-      Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test-image@1.0' } } },
+      Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test.example.com/test-image@1.0' } } },
       Version: { Index: 1 }
     }),
     update: (opts) => {
