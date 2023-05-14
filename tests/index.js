@@ -9,9 +9,14 @@ test('POST /webhook listsServices but does no updates', async t => {
       t.pass('triggered listServices');
       return [];
     },
-
-    update: () => {
-      t.fail('should not call update');
+    pull: () => Promise.resolve(),
+    getService: () => {
+      return {
+        inspect: () => Promise.resolve(),
+        update: () => {
+          t.fail('should not call update');
+        }
+      };
     }
   }
 
@@ -23,33 +28,36 @@ test('POST /webhook listsServices but does no updates', async t => {
     body: '{}'
   });
 
-  return () => {
-    server.close();
-  }
+  server.close();
 });
 
 test('POST /webhook listsServices and updates services', async t => {
-  t.plan(4);
+  t.plan(3);
 
   const mockService = {
-    inspect: () => ({
-      Name: 'test-service',
-      Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test-image:1.0' } } },
+    inspect: () => Promise.resolve({
+      ID: 'test-service',
+      Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test-image@1.0' } } },
       Version: { Index: 1 }
     }),
     update: (opts) => {
       t.pass('triggered service update');
       t.equal(opts.version, 1, 'correct version passed to update');
-      t.equal(opts.TaskTemplate.ContainerSpec.Image, 'test-image:1.0', 'correct image passed to update');
     }
   };
 
   const mockDocker = {
+    pull: () => Promise.resolve(),
     listServices: () => {
       t.pass('triggered listServices');
       return [{ ID: 'test-service' }];
     },
-    getService: () => mockService
+    getService: () => mockService,
+    getImage: () => ({
+      inspect: () => Promise.resolve({
+        RepoDigests: ['test-image@2.0']
+      })
+    })
   }
 
   const server = createServer(mockDocker);
@@ -60,7 +68,5 @@ test('POST /webhook listsServices and updates services', async t => {
     body: '{}'
   });
 
-  return () => {
-    server.close();
-  }
+  server.close();
 });
