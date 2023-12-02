@@ -24,11 +24,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dockerode": "^3.3.5",
-    "final-stream": "^2.0.4"
+    "dockerode": "^4.0.0",
+    "final-stream": "^2.0.4",
+    "p-retry": "^6.1.0"
   },
   "devDependencies": {
-    "basictap": "^4.3.3",
-    "c8": "^7.13.0"
+    "basictap": "^4.3.5",
+    "c8": "^8.0.1"
   }
 }

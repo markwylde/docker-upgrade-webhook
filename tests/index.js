@@ -22,7 +22,7 @@ test('POST /webhook listsServices but does no updates', async t => {
     }
   }
 
-  const server = createServer(mockDocker, '0');
+  const server = await createServer(mockDocker, '0');
   server.listen(8080);
 
   await fetch('http://localhost:8080/webhook', {
@@ -34,7 +34,7 @@ test('POST /webhook listsServices but does no updates', async t => {
 });
 
 test('POST /webhook listsServices and updates services', async t => {
-  t.plan(3);
+  t.plan(5);
 
   const mockService = {
     inspect: () => Promise.resolve({
@@ -52,7 +52,14 @@ test('POST /webhook listsServices and updates services', async t => {
     pull: () => Promise.resolve(),
     listServices: () => {
       t.pass('triggered listServices');
-      return [{ ID: 'test-service' }];
+      return [{
+        ID: 'test-service',
+        Spec: { Name: 'test-service', TaskTemplate: { ContainerSpec: { Image: 'test.example.com/test-image@1.0' } } }
+      }];
+    },
+    listTasks: () => {
+      t.pass('triggered listTasks');
+      return [];
     },
     getService: () => mockService,
     getImage: () => ({
@@ -62,7 +69,7 @@ test('POST /webhook listsServices and updates services', async t => {
     })
   }
 
-  const server = createServer(mockDocker, '0');
+  const server = await createServer(mockDocker, '0');
   server.listen(8081);
 
   await fetch('http://localhost:8081/webhook', {
