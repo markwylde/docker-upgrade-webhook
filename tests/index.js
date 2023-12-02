@@ -34,7 +34,7 @@ test('POST /webhook listsServices but does no updates', async t => {
 });
 
 test('POST /webhook listsServices and updates services', async t => {
-  t.plan(5);
+  t.plan(6);
 
   const mockService = {
     inspect: () => Promise.resolve({
