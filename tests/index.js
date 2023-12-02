@@ -2,6 +2,7 @@ import test from 'basictap';
 import createServer from '../lib/createServer.js';
 
 process.env.DOCKER_REGISTRY_URL = 'test.example.com';
+process.env.DEBOUNCE = '1';
 
 test('POST /webhook listsServices but does no updates', async t => {
   t.plan(2);
