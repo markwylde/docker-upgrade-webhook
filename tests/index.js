@@ -4,7 +4,7 @@ import createServer from '../lib/createServer.js';
 process.env.DOCKER_REGISTRY_URL = 'test.example.com';
 
 test('POST /webhook listsServices but does no updates', async t => {
-  t.plan(1);
+  t.plan(2);
 
   const mockDocker = {
     listServices: () => {
