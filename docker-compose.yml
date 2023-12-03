@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  docker-upgrade-webhook:
+    image: ghcr.io/markwylde/docker-upgrade-webhook:latest
+    ports:
+      - 1907:1907
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker/config.json:/home/appuser/.docker/config.json

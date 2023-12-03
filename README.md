@@ -20,6 +20,7 @@ services:
       - 1907:1907
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker/config.json:/home/appuser/.docker/config.json
 ```
 
 Then run the command:
