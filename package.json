@@ -25,8 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "dockerode": "^4.0.0",
-    "final-stream": "^2.0.4",
-    "p-retry": "^6.1.0"
+    "final-stream": "^2.0.4"
   },
   "devDependencies": {
     "basictap": "^4.3.5",
