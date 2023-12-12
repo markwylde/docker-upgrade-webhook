@@ -8,8 +8,14 @@ permissions:
   packages: write
 
 jobs:
-  build-linux:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -27,41 +33,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           push: true
-          platforms: linux/amd64
-          tags: ghcr.io/markwylde/docker-upgrade-webhook:latest
-
-  build-macos:
-    runs-on: macos-latest-xlarge
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '19'
-      - run: brew install docker
-      - run: colima start
-      - uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.OS }}-node-
-      - run: npm ci
-      - run: npm run test
-      - uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          platforms: linux/arm64
+          platforms: ${{ matrix.platform }}
           tags: ghcr.io/markwylde/docker-upgrade-webhook:latest
