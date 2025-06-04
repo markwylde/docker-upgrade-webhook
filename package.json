@@ -1,6 +1,6 @@
 {
   "name": "docker-upgrade-webhook",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "A webhook server that automatically updates Docker services when a repository changes.",
   "type": "module",
   "main": "lib/index.js",
